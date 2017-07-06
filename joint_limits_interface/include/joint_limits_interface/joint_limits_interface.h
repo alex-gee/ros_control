@@ -439,8 +439,15 @@ public:
       assert(period.toSec() > 0.0);
       const double vel = jh_.getVelocity();
       const double dt  = period.toSec();
+      if(limits_.has_deceleration_limits)
+      {
+        vel_low  = std::max(vel - limits_.max_deceleration * dt, -limits_.max_velocity);
+      }
+      else
+      {
+        vel_low  = std::max(vel - limits_.max_acceleration * dt, -limits_.max_velocity);
+      }
 
-      vel_low  = std::max(vel - limits_.max_acceleration * dt, -limits_.max_velocity);
       vel_high = std::min(vel + limits_.max_acceleration * dt,  limits_.max_velocity);
     }
     else
@@ -509,7 +516,14 @@ public:
     {
       const double vel = jh_.getVelocity();
       const double delta_t = period.toSec();
-      min_vel = std::max(vel - limits_.max_acceleration * delta_t, min_vel);
+      if (limits_.has_deceleration_limits)
+      {
+        min_vel = std::max(vel + limits_.max_deceleration * delta_t, min_vel);
+      }
+      else
+      {
+        min_vel = std::max(vel - limits_.max_acceleration * delta_t, min_vel);
+      }
       max_vel = std::min(vel + limits_.max_acceleration * delta_t, max_vel);
     }
 

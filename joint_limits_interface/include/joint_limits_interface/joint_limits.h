@@ -45,6 +45,7 @@ struct JointLimits
       has_position_limits(false),
       has_velocity_limits(false),
       has_acceleration_limits(false),
+      has_deceleration_limits(false),
       has_jerk_limits(false),
       has_effort_limits(false),
       angle_wraparound(false)
@@ -54,12 +55,14 @@ struct JointLimits
   double max_position;
   double max_velocity;
   double max_acceleration;
+  double max_deceleration;
   double max_jerk;
   double max_effort;
 
   bool   has_position_limits;
   bool   has_velocity_limits;
   bool   has_acceleration_limits;
+  bool   has_deceleration_limits;
   bool   has_jerk_limits;
   bool   has_effort_limits;
   bool   angle_wraparound;

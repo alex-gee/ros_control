@@ -139,6 +139,19 @@ inline bool getJointLimits(const std::string& joint_name, const ros::NodeHandle&
     }
   }
 
+  // Deceleration limits
+  bool has_deceleration_limits = false;
+  if(limits_nh.getParam("has_deceleration_limits", has_deceleration_limits))
+  {
+    if (!has_deceleration_limits) {limits.has_deceleration_limits = false;}
+    double max_dec;
+    if (has_deceleration_limits && limits_nh.getParam("max_deceleration", max_dec))
+    {
+      limits.has_deceleration_limits = true;
+      limits.max_deceleration = max_dec;
+    }
+  }
+
   // Jerk limits
   bool has_jerk_limits = false;
   if(limits_nh.getParam("has_jerk_limits", has_jerk_limits))
